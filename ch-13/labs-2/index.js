@@ -15,6 +15,9 @@ const out = join(__dirname, 'out.txt')
 function exercise () {
   // TODO read the files in the project folder
   // and write the to the out.txt file
+
+  const contents = fs.readdirSync(project).reverse()
+  fs.writeFileSync(join(__dirname, 'out.txt'), contents.join(','))
 }
 
 exercise()
