@@ -1,4 +1,11 @@
 'use strict'
+
+function prefixer(prefix) {
+  return function saySomething(name) {
+    return `${prefix} ${name}`
+  }
+}
+
 const sayHiTo = prefixer('Hello ')
 const sayByeTo = prefixer('Goodbye ')
 console.log(sayHiTo('Dave')) // prints 'Hello Dave'

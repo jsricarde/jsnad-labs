@@ -1,13 +1,40 @@
 const assert = require('assert')
 
-// TODO: 
+// TODO:
 // implement a way to create a prototype chain
 // of leopard -> lynx -> cat
 // leopard prototype must have ONLY a hiss method
 // lynx prototype must have ONLY a purr method
 // cat prototype must have ONLY a meow method
 
-const felix = null //TODO replace null with instantiation of a cat
+class leopard {
+  constructor(name) {
+    this.name = name
+  }
+  hiss(){
+    return `${this.name}: hsss`
+  }
+}
+
+class lynx extends leopard {
+  constructor(name) {
+    super(name)
+  }
+  purr(){
+    return `${this.name}: prrr`
+  }
+}
+
+class cat extends lynx {
+  constructor(name) {
+    super(`${name} the cat`)
+  }
+  meow(){
+    return `${this.name}: prrr`
+  }
+}
+
+const felix = new cat('Felix') //TODO replace null with instantiation of a cat
 felix.meow() // prints Felix the cat: meow
 felix.purr() // prints Felix the cat: prrr
 felix.hiss() // prints Felix the cat: hsss
