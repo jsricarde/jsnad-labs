@@ -175,3 +175,7 @@ assert.rejects(pseudoReq('http://error.com'), Error('network error'))
 ```
 
 Recall that `async` functions always return promises. So we converted our previously callback-based faux-request API to an `async` function. We can then use `assert.reject` and `assert.doesNotReject` to test the success case and the error case. One caveat with these assertions is that they also return promises, so in the case of an assertion error a promise will reject with an `AssertionError` rather than `AssertionError` being thrown as an exception.
+
+## Jest
+
+A test framework environment may provide a module or modules, but it will also introduce implicit globals into the environment and requires another CLI tool to execute tests so that these implicit globals can be injected. For an example of a test framework environment we'll be looking at `jest`.
