@@ -33,4 +33,39 @@ The `format.js` file is loaded into the `index.js` file by passing a path into `
 
 ### Detecting Main Module
 
+The "start" script in the `package.json` file executes node `index.js`. When a file is called with node that file is the entry point of a program. So currently `my-package` is behaving more like an application or service than a package module.
 
+In some situations we may want a module to be able to operate both as a program and as a module that can be loaded into other modules.
+
+When a file is the entry point of a program, it's the main module. We can detect whether a particular file is the main module in two ways.
+
+We can check if `module.parent` is null or we can check if `require.main` is the module object.
+
+We'll use the second approach here, let's modify the `index.js` file to the following:
+
+```sh
+'use strict'
+const format = require('./format')
+
+if (require.main === module) {
+  const pino = require('pino')
+  const logger = pino()
+  logger.info(format.upper('my-package started'))
+  process.stdin.resume()
+} else {
+  const reverseAndUpper = (str) => {
+    return format.upper(str).split('').reverse().join('')
+  }
+  module.exports = reverseAndUpper
+}
+```
+
+Now the `index.js` file has two operational modes.
+
+### Resolving a Module Path
+The `require` function has a method called `require.resolve`. This can be used to determine the absolute path for any required module.
+
+Let's create a file in `my-package` and call it `resolve-demo.js`, and place the following code into it:
+
+```sh
+```
