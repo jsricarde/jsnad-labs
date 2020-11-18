@@ -3,22 +3,24 @@
   <br /> <br /> <br />
 </p>
 
-<p align="center">🎓 This repository contains examples that I have done for my own preparation for the NodeJS certification exam - Application Developer (JSNAD).</p>
+<p align="center">🎓 In this repo you can find exercises and examples by modules that I made for my own preparation for the Node.js official certification (JSNAD).🎓</p>
 
 <p align="center">
   <a title="MIT License" href="LICENSE.md">
     <img src="https://img.shields.io/github/license/gridsome/gridsome.svg?style=flat-square&label=License&colorB=6cc24a">
   </a>
+  <br />
   <a title="Twitter: JuanC215" href="https://twitter.com/JuanC215">
-    @JuanC215
-  </a>  
-  <a title="Github: jsricarde" href="https://github.com/jsricarde">
-    jsricarde
+   Twitter: @JuanC215
   </a>
   <br />
-  <br />
 </p>
-# Node.js JSNAD Preparation
 
-Exercises to prepare for the jsnad certification by modules
+## Content
+
+- [Javascript Key Concepts] 10%
+
+ [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
+
+
 
