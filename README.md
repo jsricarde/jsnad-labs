@@ -18,7 +18,7 @@
 
 ## Content
 
-- [Javascript Key Concepts] 10%
+- [Javascript Key Concepts] 7%
 
  [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
 
