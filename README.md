@@ -18,9 +18,18 @@
 
 ## Content
 
-- [Javascript Key Concepts] 7%
+* [Javascript Key Concepts] 7%
+  * [Data Types]
+  * [Functions]
+  * [Prototypal Inheritance]
+  * [Closure Scope]
+
 
  [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
+ [Data Types]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#data-types>
+ [Functions]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#functions>
+ [Prototypal Inheritance]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#prototypal-inheritance-functional>
+ [Closure Scope]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#closure-scope>
 
 
 
