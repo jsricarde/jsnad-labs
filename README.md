@@ -23,6 +23,10 @@
   * [Functions]
   * [Prototypal Inheritance]
   * [Closure Scope]
+* [Async Control Flow] 12%
+  * [Callbacks]
+  * [Promises]
+  * [Async]
 
 
  [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -31,5 +35,8 @@
  [Prototypal Inheritance]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#prototypal-inheritance-functional>
  [Closure Scope]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#closure-scope>
 
-
+ [Async Control flow]: <http://github.com/jsricarde/jsnad-labs/tree/master/async-control-flow>
+ [Callbacks]: <https://github.com/jsricarde/jsnad-labs/tree/master/async-control-flow#callbacks>
+ [Promises]: <https://github.com/jsricarde/jsnad-labs/tree/master/async-control-flow#promises>
+ [Async]: <https://github.com/jsricarde/jsnad-labs/tree/master/async-control-flow#async>
 
