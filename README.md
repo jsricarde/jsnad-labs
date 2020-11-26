@@ -27,6 +27,14 @@
   * [Callbacks]
   * [Promises]
   * [Async]
+* [Events] 11%
+  * [Emitting Events]
+  * [Listening]
+  * [Single Use Listener]
+  * [Removing Listeners]
+  * [Error Event]
+
+
 
 
  [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -39,4 +47,12 @@
  [Callbacks]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#callbacks>
  [Promises]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#promises>
  [Async]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#async>
+
+  [Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events>
+  [Single Use Listener]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/single-use-listener>
+  [Listening]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/listening>
+  [Emitting Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/emitting-events>
+  [Removing Listeners]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/removing-listeners>
+  [Error Event]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/error-event>
+
 

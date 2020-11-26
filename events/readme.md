@@ -62,7 +62,7 @@ class MyEmitter extends EventEmitter {
 
 The `destroy` method we created for the `MyEmitter` constructor class calls `this.emit`. It will also emit a close event. If an error object is passed to `destroy` it will emit an error event and pass the error object as an argument.
 
-## Listening for Events
+## Listening
 
 To add a listener to an event emitter the `addListener` method or it's alias on method is used:
 
@@ -214,7 +214,7 @@ setTimeout(() => {
 
 The '`my-event`' and '`another-event`' events are triggered every 200 milliseconds. After 500 milliseconds all listeners for '`my-event`' are removed, so the two listeners are triggered twice before they are removed. After 1100 milliseconds `removeAllLIsteners` method is called with no arguments, which removes the remaining '`another-event`' listener, thus it is called five times.
 
-## The error Event
+## Error Event
 
 Emitting an '`error`' event on an event emitter will cause the event emitter to throw an exception if a listener for the '`error`' event has not been registered:
 
