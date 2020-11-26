@@ -49,10 +49,10 @@
  [Async]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#async>
 
   [Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events>
-  [Single Use Listener]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/single-use-listener>
-  [Listening]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/listening>
-  [Emitting Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/emitting-events>
-  [Removing Listeners]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/removing-listeners>
-  [Error Event]: <http://github.com/jsricarde/jsnad-labs/tree/master/events/error-event>
+  [Single Use Listener]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#single-use-listener>
+  [Listening]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#listening>
+  [Emitting Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#emitting-events>
+  [Removing Listeners]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#removing-listeners>
+  [Error Event]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#error-event>
 
 
