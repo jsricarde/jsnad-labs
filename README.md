@@ -41,8 +41,11 @@
   * [Rejections]
   * [Async Try Catch]
   * [Propagation]
-
-
+* [Buffers] 5%
+  * [Allocating Buffers]
+  * [Converting Strings to Buffers]
+  * [Converting Buffers to Strings]
+  * [JSON Serializing and Deserializing Buffers]
 
 
 [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -71,6 +74,13 @@
 [Propagation]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#propagation>
 [Try Catch]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#try-catch>
 [Async Try Catch]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#async-try-catch>
+
+[Buffers]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers>
+[JSON Serializing and Deserializing Buffers]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#JSON-Serializing-and-Deserializing-Buffers>
+[Converting Strings to Buffers]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#Converting-Strings-to-Buffers>
+[Allocating Buffers]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#Allocating-Buffers>
+[Converting Buffers to Strings]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#Converting-Buffers-to-Strings>
+
 
 
 
