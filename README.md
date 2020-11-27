@@ -33,26 +33,45 @@
   * [Single Use Listener]
   * [Removing Listeners]
   * [Error Event]
+* [Error Handling] 8%
+  * [Throwing]
+  * [Native Error Constructors]
+  * [Custom Errors]
+  * [Try Catch]
+  * [Rejections]
+  * [Async Try Catch]
+  * [Propagation]
 
 
 
 
- [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
- [Data Types]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#data-types>
- [Functions]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#functions>
- [Prototypal Inheritance]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#prototypal-inheritance-functional>
- [Closure Scope]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#closure-scope>
+[Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
+[Data Types]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#data-types>
+[Functions]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#functions>
+[Prototypal Inheritance]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#prototypal-inheritance-functional>
+[Closure Scope]: <https://github.com/jsricarde/jsnad-labs/tree/master/es6#closure-scope>
 
- [Async Control flow]: <http://github.com/jsricarde/jsnad-labs/tree/master/async>
- [Callbacks]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#callbacks>
- [Promises]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#promises>
- [Async]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#async>
+[Async Control flow]: <http://github.com/jsricarde/jsnad-labs/tree/master/async>
+[Callbacks]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#callbacks>
+[Promises]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#promises>
+[Async]: <https://github.com/jsricarde/jsnad-labs/tree/master/async#async>
 
-  [Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events>
-  [Single Use Listener]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#single-use-listener>
-  [Listening]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#listening>
-  [Emitting Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#emitting-events>
-  [Removing Listeners]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#removing-listeners>
-  [Error Event]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#error-event>
+[Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events>
+[Single Use Listener]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#single-use-listener>
+[Listening]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#listening>
+[Emitting Events]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#emitting-events>
+[Removing Listeners]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#removing-listeners>
+[Error Event]: <http://github.com/jsricarde/jsnad-labs/tree/master/events#error-event>
+
+[Error Handling]: <http://github.com/jsricarde/jsnad-labs/tree/master/error>
+[Throwing]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#throwing>
+[Native Error Constructors]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#native-error-constructors>
+[Custom Errors]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#custom-errors>
+[Rejections]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#rejections>
+[Propagation]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#propagation>
+[Try Catch]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#try-catch>
+[Async Try Catch]: <http://github.com/jsricarde/jsnad-labs/tree/master/error#async-try-catch>
+
+
 
 
