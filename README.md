@@ -46,6 +46,11 @@
   * [Converting Strings to Buffers]
   * [Converting Buffers to Strings]
   * [JSON Serializing and Deserializing Buffers]
+* [Streams] 6%
+  * [Allocating Buffers]
+  * [Converting Strings to Buffers]
+  * [Converting Buffers to Strings]
+  * [JSON Serializing and Deserializing Buffers]
 
 
 [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -80,6 +85,9 @@
 [Converting Strings to Buffers]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#Converting-Strings-to-Buffers>
 [Allocating Buffers]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#Allocating-Buffers>
 [Converting Buffers to Strings]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#Converting-Buffers-to-Strings>
+
+[Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams>
+
 
 
 
