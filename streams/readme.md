@@ -356,3 +356,276 @@ By creating an object-mode stream, writing the number 1 to the stream will no lo
 
 Typically writable streams would be binary streams. However, in some cases object-mode readable-writable streams can be useful. In the next section we'll look at the remaining stream types.
 
+## Readable-Writable Streams
+
+In addition to the Readable and Writable stream constructors there are three more core stream constructors that have both readable and writable interfaces:
+
+- `Duplex`
+- `Transform`
+- `PassThrough`
+
+We will explore consuming all three, but only create the most common user stream: the `Transform` stream.
+
+The `Duplex` stream constructor's prototype inherits from the `Readable` constructor but it also mixes in functionality from the Writable constructor.
+
+With a `Duplex` stream, both read and write methods are implemented but there doesn't have to be a causal relationship between them. In that, just because something is written to a Duplex stream doesn't necessarily mean that it will result in any change to what can be read from the stream, although it might. A concrete example will help make this clear, a TCP network socket is a great example of a `Duplex` stream:
+
+```sh
+'use strict'
+const net = require('net')
+net.createServer((socket) => {
+  const interval = setInterval(() => {
+    socket.write('beat')
+  }, 1000)
+  socket.on('data', (data) => {
+    socket.write(data.toString().toUpperCase())
+  })
+  socket.on('end', () => { clearInterval(interval) })
+}).listen(3000)
+```
+
+The `net.createServer` function accepts a listener function which is called every time a client connects to the server. The listener function is passed a `Duplex` stream instance which we called `socket`. Every second, `socket.write('beat')` is called, this is the first place the writable side of the stream is used. The stream is also listened to for data events and an end event, in these cases we are interacting with the readable side of the `Duplex` stream. Inside the data event listener we also write to the stream by sending back the incoming data after transforming it to upper case. The end event is useful for cleaning up any resources or on-going operations after a client disconnects. In our case we use it to clear the one second interval.
+
+In order to interact with our server, we'll also create a small client. The client `socket` is also a `Duplex` stream:
+
+```sh
+'use strict'
+const net = require('net')
+const socket = net.connect(3000)
+
+socket.on('data', (data) => {
+  console.log('got data:', data.toString())
+})
+
+setTimeout(() => {
+  socket.write('all done')
+  setTimeout(() => {
+    socket.end()
+  }, 250)
+}, 3250)
+```
+
+The `net.connect` method returns a Duplex stream which represents the TCP client socket.
+
+We listen for `data` events and log out the incoming data buffers, converting them to strings for display purposes. On the writable side, the `socket.write` method is called with a string, after three and a quarter seconds another payload is written, and another quarter second later the stream is ended by calling `socket.end`.
+
+If we start both of the code examples as separate processes we can view the interaction:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-9.png" width="800" />
+  <br />
+</p>
+
+The purpose of this example is not to understand the net module in its entirety but to understand that it exposes a common API abstraction, a `Duplex` stream and to see how interaction with a `Duplex` stream works.
+
+The Transform constructor inherits from the `Duplex` constructor. Transform streams are duplex streams with an additional constraint applied to enforce a causal relationship between the read and write interfaces. A good example is compression:
+
+```sh
+'use strict'
+const { createGzip } = require('zlib')
+const transform = createGzip()
+transform.on('data', (data) => {
+  console.log('got gzip data', data.toString('base64'))
+})
+transform.write('first')
+setTimeout(() => {
+  transform.end('second')
+}, 500)
+```
+
+As data is written to the `transform` stream instance, `data` events are emitted on the readable side of that data in compressed format. We take the incoming data buffers and convert them to strings, using BASE64 encodings. This results in the following output:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-10.png" width="800" />
+  <br />
+</p>
+
+The way that `Transform` streams create this causal relationship is through how a transform stream is created. Instead of supplying read and `write` options functions, a `transform` option is passed to the `Transform` constructor:
+
+```sh
+'use strict'
+
+const { Transform } = require('stream')
+
+const { scrypt } = require('crypto')
+
+const createReadWriteStream = () => {
+    return new Transform({
+        transform(chunk, enc, next) {
+            scrypt(chunk, 'a-salt', 32, (err, key) => {
+                if(err) {
+                    next(err)
+                    return
+                } else {
+                    next(null, key)
+                }
+            })
+        }
+    })
+}
+
+const transform = createReadWriteStream()
+transform.on('data', (data) => {
+    console.log('got some data', data)
+})
+
+transform.write('A\n')
+transform.write('B\n')
+transform.write('C\n')
+transform.end('nothing more to write')
+```
+
+The `transform` option function has the same signature as the `write` option function passed to `Writable` streams. It accepts `chunk`, `enc` and the `next` function. However, in the `transform` option function the next function can be passed a second argument which should be the result of applying some kind of transform operation to the incoming `chunk`.
+
+In our case we used the asynchronous callback-based `crypto.scrypt` method, as ever the key focus here is on streams implementation (to find out more about this method see the crypto.scrypt(password, salt, keylen[, options], callback) section of Node.js Documentation).
+
+The `crypto.scrypt` callback is called once a key is derived from the inputs, or may be called if there was an error. In the event of an error we pass the error object to the next callback. In that scenario this would cause our transform stream to emit an error event. In the success case we call next(null, key). Passing the first argument as null indicates that there was no error, and the second argument is emitted as a data event from the readable side of the stream. Once we've instantiated our stream and assigned it to the transform constant, we write some payloads to the stream and then log out the hex strings we receive in the data event listener. The data is received as hex because we set the encoding option (part of the `Readable` stream options) to dictate that emitted data would be decoded to hex format. This produces the following result:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-10.png" width="800" />
+  <br />
+</p>
+
+
+The `PassThrough` constructor inherits from the `Transform` constructor. It's essentially a transform stream where no transform is applied. For those familiar with Functional Programming this has similar applicability to the `identity` function `((val) => val)`, that is, it's a useful placeholder when a transform stream is expected but no transform is desired. See Lab 12.2 "Create a Transform Stream" to see an example of `PassThrough` being used.
+
+## Determining End-of-Stream
+
+As we discussed earlier, there are at least four ways for a stream to potentially become inoperative:
+
+We often need to know when a stream has closed so that resources can be deallocated, otherwise memory leaks become likely.
+
+Instead of listening to all four events, the `stream.finished` utility function provides a simplified way to do this:
+
+```sh
+'use strict'
+const net = require('net')
+const { finished } = require('stream')
+net.createServer((socket) => {
+  const interval = setInterval(() => {
+    socket.write('beat')
+  }, 1000)
+  socket.on('data', (data) => {
+    socket.write(data.toString().toUpperCase())
+  })
+  finished(socket, (err) => {
+    if (err) {
+      console.error('there was a socket error', err)
+    }
+    clearInterval(interval)
+  })
+}).listen(3000)
+```
+
+Taking the example on the previous "Readable-Writable Streams" page, we replaced the end event listener with a call to the `finished` utility function. The stream (socket) is passed to `finished` as the first argument and the second argument is a callback for when the stream ends for any reason. The first argument of the callback is a potential error object. If the stream were to emit an error event the callback would be called with the error object emitted by that event. This is a much safer way to detect when a stream ends and should be standard practice, since it covers every eventuality.
+
+## Piping Streams
+
+We can now put everything we've learned together and discover how to use a terse yet powerful abstraction: piping. Piping has been available in command line shells for decades, for instance here's a common Bash command:
+
+```sh
+cat some-file | grep find-something
+```
+
+The pipe operator instructs the console to read the stream of output coming from the left-hand command (`cat some-file`) and write that data to the right-hand command (`grep find-something`). The concept is the same in Node, but the pipe method is used.
+
+Let's adapt the TCP client server from the "Readable-Writable Streams" page to use the pipe method. Here is the client server from earlier:
+
+```sh
+'use strict'
+const net = require('net')
+const socket = net.connect(3000)
+
+socket.on('data', (data) => {
+  console.log('got data:', data.toString())
+})
+
+socket.write('hello')
+setTimeout(() => {
+  socket.write('all done')
+  setTimeout(() => {
+    socket.end()
+  }, 250)
+}, 3250)
+```
+
+We'll replace the data event listener with a `pipe`:
+
+```sh
+'use strict'
+const net = require('net')
+const socket = net.connect(3000)
+
+socket.pipe(process.stdout)
+
+socket.write('hello')
+setTimeout(() => {
+  socket.write('all done')
+  setTimeout(() => {
+    socket.end()
+  }, 250)
+}, 3250)
+```
+
+Starting the example server from earlier and running the modified client results in the following:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-12.png" width="800" />
+  <br />
+</p>
+
+The `process` object will be explored in detail in Section 14 - "Process & Operating System", but to understand the code it's important to know that `process.stdout` is a `Writable` `stream`. Anything written to `process.stdout` will be printed out as process output. Note that there are no newlines, this is because we were using console.log before, which adds a newline whenever it is called.
+
+The `pipe` method exists on `Readable` streams (recall `socket` is a `Duplex` stream instance and that `Duplex` inherits from `Readable`), and is passed a Writable stream (or a stream with Writable capabilities). Internally, the `pipe` method sets up a `data` listener on the `readable` stream and automatically writes to the writable stream as data becomes available.
+
+Since pipe returns the stream passed to it, it is possible chain `pipe` calls together: `streamA.pipe(streamB).pipe(streamC)`. This is a commonly observed practice, but it's also bad practice to create pipelines this way. If a stream in the middle fails or closes for any reason, the other streams in the pipeline will not automatically close. This can create severe memory leaks and other bugs. The correct way to pipe multiple streams is to use the stream.pipeline utility function.
+
+Let's combine the Transform stream we created on the "Readable-Writable Streams" pages and the TCP server as we modified it on the "Determining End-of-Stream" pages in order to create a pipeline of streams:
+
+```sh
+'use strict'
+const net = require('net')
+const { Transform, pipeline } = require('stream')
+const { scrypt } = require('crypto')
+const createTransformStream = () => {
+  return new Transform({
+    decodeStrings: false,
+    encoding: 'hex',
+    transform (chunk, enc, next) {
+      scrypt(chunk, 'a-salt', 32, (err, key) => {
+        if (err) {
+          next(err)
+          return
+          }
+        next(null, key)
+      })
+    }
+  })
+}
+
+net.createServer((socket) => {
+  const transform = createTransformStream()
+  const interval = setInterval(() => {
+    socket.write('beat')
+  }, 1000)
+  pipeline(socket, transform, socket, (err) => {
+    if (err) {
+      console.error('there was a socket error', err)
+    }
+    clearInterval(interval)
+  })
+}).listen(3000)
+```
+
+If we start both the modified TCP server and modified TCP client this will lead to the following result:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-13.png" width="800" />
+  <br />
+</p>
+
+The first 64 characters is the hex representation of a key derived from the '`hello`' string that the client Node process wrote to the client TCP `socket` Duplex `stream`. This was emitted as a `data` event on the TCP socket Duplex stream in the server Node process. It was then automatically written to our transform stream instance, which derived a key using `crypto.scrypt` within the transform option passed to the Transform constructor in our createTransformStream function. The result was then passed as the second argument of the next callback. This then resulted in a `data` event being emitted from the transform stream with the hex string of the derived key. That data was then written back to the server-side socket stream. Back in the client Node process, this incoming `data` was emitted as a `data` event by the client-side socket stream and automatically written to the process.stdout writable stream by the client Node process. The next 12 characters are the three beats written at one second intervals in the server. The final 64 characters are the hex representation of the derived key of the 'all done' string written to the client side socket. From there that payload goes through the exact same process as the first 'hello' payload.
+
+The `pipeline` command will call pipe on every stream passed to it, and will allow a function to be passed as the final function. Note how we removed the finished utility method. This is because the final function passed to the `pipeline` function will be called if any of the streams in the `pipeline` close or fail for any reason.
+
+Streams are a very large subject, this section has cut a pathway to becoming both productive and safe with streams. See Node.js Documentation to get even deeper on streams.
