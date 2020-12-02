@@ -47,10 +47,11 @@
   * [Converting Buffers to Strings]
   * [JSON Serializing and Deserializing Buffers]
 * [Streams] 6%
-  * [Allocating Buffers]
-  * [Converting Strings to Buffers]
-  * [Converting Buffers to Strings]
-  * [JSON Serializing and Deserializing Buffers]
+  * [Readable Streams]
+  * [Writable Streams]
+  * [Readable-Writable Streams]
+  * [Determining End-of-Stream]
+  * [Piping Streams]
 
 
 [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -87,6 +88,11 @@
 [Converting Buffers to Strings]: <http://github.com/jsricarde/jsnad-labs/tree/master/buffers#Converting-Buffers-to-Strings>
 
 [Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams>
+[Readable Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams#Readable-Streams>
+[Writable Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams#Writable-Streams>
+[Readable-Writable Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams#Readable-Writable-Streams>
+[Determining End-of-Stream]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams#Determining-End-of-Stream>
+[Piping Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams#Writable-Piping>
 
 
 
