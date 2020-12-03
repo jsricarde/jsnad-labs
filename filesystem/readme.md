@@ -308,3 +308,279 @@ Directories are a special type of file, which hold a catalog of files. Similar t
 - `Callback-based`
 - `Promise-based`
 - An async iterable that inherits from `fs.Dir`
+
+While it will be explored here, going into depth on the last bullet point is beyond the scope of this chapter, but see Class `fs.Dir` of the Node.js Documentation for more information.
+
+The pros and cons of each API approach is the same as reading and writing files. Synchronous execution is recommended against when asynchronous operations are relied upon (such as when serving HTTP requests). Callback or promise-based are best for most cases. The stream-like API would be best for extremely large directories.
+
+Let's say we have a folder with the following files:
+
+- `example.js`
+- `file-a`
+- `file-b`
+- `file-c`
+
+The `example.js` file would be the file that executes our code. Let's look at synchronous, callback-based and promise-based at the same time:
+
+```sh
+'use strict'
+
+const { readdir, readdirSync } = require('fs')
+const {readdir: readDirProm } = require('fs').promises
+const { join } = require('path')
+
+const out = join(__dirname, 'directories')
+
+try {
+    const directories = readdirSync(out)
+    console.log('sync: ', directories);  
+} catch (err) {
+    console.error(err)
+}
+
+async function run() {
+    const directories = await readDirProm(out)
+    console.log('async: ', directories);
+}
+
+readdir(out, (err, directories) => {
+    if (err) {
+        console.error(err)
+        return
+    } else {
+        console.log('callback: ', directories);
+    }
+})
+
+run().catch(console.error)
+```
+
+When executed our example code outputs the following:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/filesystem/imgs/fs-14.png" width="1000" />
+  <br />
+</p>
+
+The first section of code executes readdirSync(__dirname), this pauses execution until the directory has been read and then returns an array of filenames. This is passed into the console.log function and so written to the terminal. Since it's a synchronous method, it may throw if there's any problem reading the directory, so the method call is wrapped in a try/catch to handle the error.
+
+The second section used the readdir callback method, once the directory has been read the second argument (our callback function) will be called with the second argument being an array of files in the provided directory (in each example we've used __dirname, the current directory). In the case of an error the first argument of our callback function will be an error object, so we check for it and handle it, returning early from the function. In the success case, the files are logged out with console.log.
+
+We aliased fs.promises.readdir to readdirProm to avoid namespace collision. In the third section the readdirProm(__dirname) invocation returns a promise which is awaited in the async run function. The directory is asynchronously read, so execution won't be blocked. However because run is an async function the function itself will pause until the awaited promise returned by readdirProm function resolves with the array of files (or rejects due to error). This resolved value is stored in the files array and then passed to console.log. If readdirProm does reject, the promise automatically returned from the run function will likewise reject. This is why when run is called a catch handler is attached to the result where the error can be handled.
+
+For extremely large directories they can also be read as a stream using fs.opendir, fs.opendirSync or fs.promises.opendir method which provides a stream-like interface that we can pass to Readable.from to turn it into a stream (we covered Readable.from in the previous section - "Working with Streams").
+
+This course does not attempt to cover HTTP, for that see the sibling course, Node.js Services Development (LFW212) - coming soon. However, for the final part of this section we'll examine a more advanced case: streaming directory contents over HTTP in JSON format:
+
+```sh
+'use strict'
+const { createServer } = require('http')
+const { Readable, Transform, pipeline } = require('stream')
+const { opendirSync } = require('fs')
+
+const createEntryStream = () => {
+  let syntax = '[\n'
+  return new Transform({
+    writableObjectMode: true,
+    readableObjectMode: false,
+    transform (entry, enc, next) {
+      next(null, `${syntax} "${entry.name}"`)
+      syntax = ',\n'
+    },
+    final (cb) {
+      this.push('\n]\n')
+      cb()
+    }
+  })
+}
+
+createServer((req, res) => {
+  if (req.url !== '/') {
+    res.statusCode = 404
+    res.end('Not Found')
+    return
+  }
+  const dirStream = Readable.from(opendirSync(__dirname))
+  const entryStream = createEntryStream()
+  res.setHeader('Content-Type', 'application/json')
+  pipeline(dirStream, entryStream, res, (err) => {
+    if (err) console.error(err)
+  })
+}).listen(3000)
+```
+
+The above example will respond to an HTTP request to http://localhost:3000 with a JSON array of files. In the following screenshot the server is started in the lower terminal and then an HTTP request is made with Node:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/filesystem/imgs/fs-15.png" width="1000" />
+  <br />
+</p>
+
+The fs.opendirSync method returns an instance of fs.Dir which is not a stream, but it is an async iterable (see for await...of and Symbol.asyncIterator sections of MDN web docs). The stream.Readable.from method can be passed an async iterable to convert it to a stream. Inside the function passed to createServer we do just that and assign it to dirStream. We also create an entryStream which is a transform stream that we've implemented in our createEntryStream function. The res object represents the HTTP response and is a writable stream. We set up a pipeline from dirStream to entryStream to res, passing a final callback to pipeline to log out any errors.
+
+Some more advanced options are passed to the Transform stream constructor, writableObjectMode and readableObjectMode allow for the objectMode to be set for the read and write interfaces separately. The writableObjectMode is set to true because dirStream is an object stream (of fs.Dirent objects, see Class: fs.Dirent section of Node.js Documentation). The readableObjectMode is set to false because res is a binary stream. So our entryStream can be piped to from an object stream, but can pipe to a binary stream.
+
+The writable side of the transform stream accepts objects, and dirStream emits objects which contain a name property. Inside the transform function option, a string is passed as the second argument to next, which is composed of the syntax variable and entry.name. For the first entry that is written to the transform stream, the syntax variable is '[\n' which opens up the JSON array. The syntax variable is then set to ',\n' which provides a delimiter between each entry.
+
+The final option function is called before the stream ends, which allows for any cleanup or final data to send through the stream. In the final function this.push is called in order to push some final bytes to the readable side of the transform stream, this allows us to close the JSON array. When we're done we call the callback (cb) to let the stream know we've finished any final processing in the final function.
+
+## File Metadata
+
+Metadata about files can be obtained with the following methods:
+
+- `fs.stat, fs.statSync, fs.promises.stat`
+- `fs.lstat, fs.lstatSync, fs.promises.lstat`
+
+These methods return an fs.Stat instance which has a variety of properties and methods for looking up metadata about a file, see Class: fs.Stats section of the Node.js Documentation for the full API.
+
+We'll now look at detecting whether a given path points to a file or a directory and we'll look at the different time stats that are available.
+
+By now, we should understand the difference and trade-offs between the sync and async APIs so for these examples we'll use `fs.statSync`.
+
+Let's start by reading the current working directory and finding out whether each entry is a directory or not.
+
+```sh
+'use strict'
+const { readdirSync, statSync } = require('fs')
+
+const files = readdirSync('.')
+
+for (const name of files) {
+  const stat = statSync(name)
+  const typeLabel = stat.isDirectory() ? 'dir: ' : 'file: '
+  console.log(typeLabel, name)
+}
+```
+
+Since '.' is passed to `readdirSync`, the directory that will be ready will be whatever directory we're currently in.
+
+Given a directory structure with the following:
+
+- `example.js`
+- `a-dir`
+- `a-file`
+
+Where `example.js` is the file with our code in, if we run node example.js in that folder, we'll see something like the following:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/filesystem/imgs/fs-16.png" width="1000" />
+  <br />
+</p>
+
+Let's extend our example with time stats. There are four stats available for files:
+
+- Access time
+- Change time
+- Modified time
+- Birth time
+
+The difference between change time and modified time, is modified time only applies to writes (although it can be manipulated by fs.utime), whereas change time applies to writes and any status changes such as changing permissions or ownership.
+
+With default options, the time stats are offered in two formats, one is a Date object and the other is milliseconds since the epoch. We'll use the Date objects and convert them to locale strings.
+
+Let's update our code to output the four different time stats for each file:
+
+```sh
+'use strict'
+
+const { readdirSync, statSync } = require('fs')
+
+const files = readdirSync('.')
+
+for (const name of files) {
+    const stat = statSync(name)
+    const typeLabel = stat.isDirectory() ? 'dir' : 'file'
+    const { atime, birthtime, ctime, mtime } = stat
+    console.group(typeLabel, name)
+    console.log('atime:', atime.toLocaleString())
+    console.log('ctime:', ctime.toLocaleString())
+    console.log('mtime:', mtime.toLocaleString())
+    console.log('birthtime:', birthtime.toLocaleString())
+    console.groupEnd()
+    console.log()
+}
+```
+
+This will output something like the following:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/filesystem/imgs/fs-17.png" width="1000" />
+  <br />
+</p>
+
+## Watching
+
+The `fs.watch` method is provided by Node core to tap into file system events. It is however, fairly low level and not the most friendly of APIs. Now, we will explore the core `fs.watch` method. However, it's worth considering the ecosystem library, `chokidar` for file watching needs as it provides a friendlier high level API.
+
+Let's start by writing watching the current directory and logging file names and events:
+
+```sh
+'use strict'
+
+const { watch } = require('fs')
+
+watch('.', (evt, filename) => {
+    console.log(evt, filename)
+})
+```
+
+The above code will keep the process open and watch the directory of wherever the code is executed from. Any time there's a change in the directory the listener function passed as the second argument to watch will be called with an event name (evt) and the filename related to the event.
+
+The following screenshot shows the above code running in the top terminal, and file manipulation commands in the bottom section.
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/filesystem/imgs/fs-18.png" width="1000" />
+  <br />
+</p>
+
+The output in the top section is output in real time for each command in the bottom section. Let's analyze the commands in the bottom section to the output in the top section:
+
+- Creating a new file named `test` (node -e "fs.writeFileSync('test', 'test')") generates an event called rename.
+- Creating a folder called `test-dir` (node -e "fs.mkdirSync('test-dir')") generates an event called rename.
+- Setting the permissions of `test-dir` (node -e "fs.chmodSync('test-dir', 0o644)") generates an event called rename.
+- Writing the same content to the `test` file (node -e "fs.writeFileSync('test', 'test')") generates an event named change.
+- Setting the permissions of `test-dir` (node -e "fs.chmodSync('test-dir', 0o644)") a second time generates a change event this time.
+Deleting the test file (node -e "fs.unlinkSync('test')") generates a rename event.
+
+It may be obvious at this point that the supplied event isn't very useful. The `fs.watch` API is part of the low-level functionality of the fs module, it's repeating the events generated by the underlying operating system. So we can either use a library like `chokidar` as discussed at the beginning of this section or we can query and store information about files to determine that operations are occurring.
+
+We can discover whether a file is added by maintaining a list of files, and removing files when we find that a file was removed. If the file is known to us, we can further distinguish between a content update and a status update by checking whether the Modified time is equal to the Change time. If they are equal it's a content update, since a write operation will cause both to update. If they aren't equal it's a status update.
+
+```sh
+'use strict'
+const { join, resolve } = require('path')
+const { watch, readdirSync, statSync } = require('fs')
+
+const cwd = resolve('.')
+const files = new Set(readdirSync('.'))
+watch('.', (evt, filename) => {
+  try {
+    const { ctimeMs, mtimeMs } = statSync(join(cwd, filename))
+    if (files.has(filename) === false) {
+      evt = 'created'
+      files.add(filename)
+    } else {
+      if (ctimeMs === mtimeMs) evt = 'content-updated'
+      else evt = 'status-updated'
+    }
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      files.delete(filename)
+      evt = 'deleted'
+    } else {
+      console.error(err)
+    }
+  } finally {
+    console.log(evt, filename)
+  }
+})
+```
+
+This approach uses a Set (a unique list), initializing it with the array of files already present in the current workings directory. The current working directory is retrieved using resolve('.'), although it's more usual to use process.cwd(). We'll explore the process object in the next chapter. If the files set doesn't have a particular filename, the evt parameter is reassigned to 'created'. The fs.statSync method throws, it may be because the file does not exist. In that case, the catch block will receive an error object that has a code property set to 'ENOENT'. If this occurs the filename is removed from the files set and evt is reassigned to 'deleted'. Back up in the try block, if the filename is in the files set we check whether ctimeMs is equal to mtimeMs (these are time stats provided in milliseconds). If they are equal, evt is set to 'content-updated', if not it is set to 'status-updated'.
+
+If we execute our code, and the add a new file and delete it, it will output more suitable event names:
+
+<p align="center">
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/filesystem/imgs/fs-19.png" width="1000" />
+  <br />
+</p>
