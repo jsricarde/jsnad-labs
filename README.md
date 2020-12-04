@@ -58,8 +58,7 @@
   * [Reading Directories]
   * [File Metadata]
   * [Watching]
-
-
+* [Process & Operating System] 8%
 
 
 [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -108,3 +107,5 @@
 [Reading Directories]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#Reading-Directories>
 [File Metadata]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#File-Metadata>
 [Watching]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#Watching>
+
+[Process & Operating System]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os>
