@@ -51,8 +51,13 @@
   * [Writable Streams]
   * [Readable-Writable Streams]
   * [Determining End-of-Stream]
-  * [Piping Streams]
+  * [Piping Streams]s
 * [File System] 8%
+  * [Reading and Writing]
+  * [File Streams]
+  * [Reading Directories]
+  * [File Metadata]
+  * [Watching]
 
 
 
@@ -97,8 +102,9 @@
 [Determining End-of-Stream]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams#Determining-End-of-Stream>
 [Piping Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/streams#Writable-Piping>
 
-
-
-
-
-
+[File System]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem>
+[Reading and Writing]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#Reading-and-Writing>
+[File Streams]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#File-Streams>
+[Reading Directories]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#Reading-Directories>
+[File Metadata]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#File-Metadata>
+[Watching]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#Watching>
