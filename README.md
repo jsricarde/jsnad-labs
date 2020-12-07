@@ -59,6 +59,12 @@
   * [File Metadata]
   * [Watching]
 * [Process & Operating System] 6%
+  * [STDIO]
+  * [Exiting]
+  * [Process Info]
+  * [Process Stats]
+  * [System Info]
+  * [System Stats]
 
 
 [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -109,3 +115,10 @@
 [Watching]: <http://github.com/jsricarde/jsnad-labs/tree/master/filesystem#Watching>
 
 [Process & Operating System]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os>
+[STDIO]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#STDIO>
+[Exiting]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#Exiting>
+[Process Info]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#Process-Info>
+[Process Stats]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#Process-Stats>
+[System Info]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#System-Info>
+[System Stats]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#System-Stats>
+
