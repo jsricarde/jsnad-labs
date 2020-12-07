@@ -362,3 +362,145 @@ This produces the following output:
 <img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-18.png" width="1000" />
   <br />
 </p>
+
+Process uptime is the amount of seconds (with 9 decimal places) that the process has been executing for. This is not to be confused with host machine uptime, which we'll see in a future section can be determined using the os module.
+
+The `process.cpuUsage` function returns an object with two properties: `user` and `system`. The `user` property represents time that the Node process spent using the CPU. The `system` property represents time that the kernel spent using the CPU due to activity triggered by the process. Both properties contain microsecond (one millionth of a second) measurements:
+
+```sh
+'use strict'
+
+const outPutStats = () => {
+    const uptime = process.uptime()
+    const { user, system } = process.cpuUsage()
+    console.log(uptime, user, system, (user + system)/1000000)
+}
+
+outPutStats()
+
+setTimeout(() => {
+    outPutStats()
+    const now = Date.now()
+  // make the CPU do some work:
+    while (Date.now() - now < 5000) {}
+    outPutStats()
+}, 500);
+```
+
+In this example the `outputStats` function prints the process uptime in seconds, the user CPU usage in microseconds, the system CPU usage in microseconds, and the total CPU usage in seconds so we can compare it against the uptime. We print the stats when the process starts. After 500 milliseconds we print the stats again. Then we make the CPU do some work for roughly five seconds and print the stats one last time.
+
+Let's look at the output:
+
+<img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-19.png" width="1000" />
+  <br />
+</p>
+
+We can see from the output that CPU usage significantly increases on the third call to `outputStats`. This is because prior to the third call the `Date.now` function is called repeatedly in a while loop until 5000 milliseconds has passed.
+
+On the second line, we can the uptime jump in the first column from 0.026 to 0.536 because the `setTimeout` is 500 milliseconds (or 0.5 seconds). The extra 10 millisecond will be additional execution time of outputting stats and setting up the timeout. However, on the same line the CPU usage only increases by 0.006 seconds. This is because the process was idling during that time, whereas the third line records that the process was doing a lot of work. Just over 5 seconds, as intended.
+
+One other observation we can make here is on the first line the total CPU usage is greater than the uptime. This is because Node may use more than one CPU core, which can multiply the CPU time used by however many cores are used during that period.
+
+Finally, let's look at `process.memoryUsage`:
+
+```sh
+'use strict'
+
+const stats = [process.memoryUsage()]
+
+let iterations = 5
+
+while (iterations--) {
+    const arr = []
+    let i = 10000
+    // make the CPU do some work:
+    while (i--) {
+        arr.push({[Math.random()]: Math.random()})
+    }
+    stats.push(process.memoryUsage())
+}
+
+console.table(stats)
+```
+
+The `console.table` function in this example is taking an array of objects that have the same keys (`rss, heapTotal, heapUsed and external`) and printing them out as a table. We assemble the stats array by adding the result `process.memoryUsage()` at initialization and then five more times after creating 10,000 objects each time. This will output something like the following:
+
+<img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-20.png" width="1000" />
+  <br />
+</p>
+
+All of the numbers output by `process.memoryUsage` are in bytes. We can see each of the memory categories growing in each iteration, except external memory which only grows at index 1. The `external` metric refers to memory usage by the C layer, so once the JavaScript engine has fully initialized in this case there's no more memory requirements from that layer in our case. The `heapTotal` metric refers to the total memory allocated for a process. That is the process reserves that amount of memory and may grow or shrink that reserved space over time based on how the process behaves. Process memory can be split across RAM and swap space. So the `rss` metric, which stands for Resident Set Size is the amount of used RAM for the process, whereas the `heapUsed` metric is the total amount of memory used across both RAM and swap space. As we increasingly put pressure on the process memory by allocating lots of objects, we can see that the `heapUsed` number grows faster than the `rss` number, this means that swap space is being relied on more over time in this case.
+
+## System Info
+
+The os module can be used to get information about the Operating System.
+
+Let's look at a couple API's we can use to find out useful information:
+
+```sh
+'use strict'
+
+const os = require('os')
+
+console.log('Hostname', os.hostname())
+console.log('Home dir', os.homedir())
+console.log('Temp dir', os.tmpdir())
+```
+
+This will display the hostname of the operating system, the logged in users home directory and the location of the Operating System temporary directory. The temporary folder is routinely cleared by the Operating System so it's a great place to store throwaway files without the need to remove them later.
+
+<img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-21.png" width="1000" />
+  <br />
+</p>
+
+There are two ways to identify the Operating System with the os module:
+
+- The `os.platform` function which returns the same as `process.platform` property
+- The `os.type` function which on non-Windows systems uses the `uname` command and on Windows it uses the ver command, and to get the Operating System identifier:
+
+```sh
+'use strict'
+
+const os = require('os')
+
+console.log('platform', os.platform())
+console.log('type', os.type())
+```
+
+On macOS this outputs:
+
+<img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-22.png" width="1000" />
+  <br />
+</p>
+
+If executed on Windows the first line would be platform win32 and the second line would be uname Windows_NT. On Linux the first line would be platform linux and the second line would be uname Linux. However there are many more lesser known systems with a uname command that os.type() would output, too many to list here. See some examples on Wikipedia.
+
+## System Stats
+
+Operating System stats can also be gathered, let's look at:
+
+- Uptime
+- Free memory
+- Total memory
+
+The `os.uptime` function returns the amount of time the system has been running in seconds. The `os.freemem` and `os.totalmem` functions return available system memory and total system memory in bytes:
+
+```sh
+'use strict'
+
+const os = require('os')
+
+setInterval(() => {
+    console.log('system uptime', os.uptime())
+    console.log('freemem', os.freemem())
+    console.log('totalmem', os.totalmem())
+    console.log()
+
+}, 1000);
+```
+
+If we execute this code for five seconds and then press Ctrl + C we'll see something like the following:
+
+<img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-23.png" width="1000" />
+  <br />
+</p>
