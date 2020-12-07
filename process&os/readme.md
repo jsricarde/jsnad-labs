@@ -41,12 +41,6 @@ This will cause the input that we're piping from the random bytes command into o
   <br />
 </p>
 
-Since we're dealing with streams, we can take the uppercase stream from the previous chapter and pipe from process.stdin through the uppercase stream and out to process.stdout:
-
-
-
-
-
 Since we're dealing with streams, we can take the uppercase stream from the previous chapter and pipe from `process.stdin` through the uppercase stream and out to `process.stdout`:
 
 ```sh
