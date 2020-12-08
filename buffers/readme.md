@@ -3,7 +3,7 @@
 The `Buffer` constructor is a global, so there's no need to require any core module in order to use the Node core Buffer API:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-1.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-1.png" width="1000" />
   <br />
 </p>
 
@@ -13,7 +13,7 @@ When the `Buffer` constructor was first introduced into Node.js the JavaScript l
 When these new data structures were added to JavaScript, the Buffer constructor internals were refactored on top of the `Uint8Array` typed array. So a buffer object is both an instance of Buffer and an instance (at the second degree) of `Uint8Array`.
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-2.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-2.png" width="1000" />
   <br />
 </p>
 
@@ -22,7 +22,7 @@ This means there are additional API's that can be availed of beyond the Buffer m
 One key thing to note is that the `Buffer.prototype.slice` method overrides the `Uint8Array.prototype.slice` method to provide a different behavior. Whereas the `Uint8Array` slice method will take a copy of a buffer between two index points, the Buffer slice method will return a buffer instance that references the binary data in the original buffer that `slice` was called on:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-3.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-3.png" width="1000" />
   <br />
 </p>
 
@@ -42,7 +42,7 @@ const buffer = Buffer.alloc(10)
 The above would allocate a buffer of 10 bytes. By default the `Buffer.alloc` function produces a zero-filled buffer:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-5.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-5.png" width="1000" />
   <br />
 </p>
 
@@ -59,7 +59,7 @@ Any time a buffer is created, it's allocated from unallocated memory. Unallocate
 Every time Buffer.allocUnsafe is used it will return a different buffer of garbage bytes:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-6.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-6.png" width="1000" />
   <br />
 </p>
 
@@ -83,7 +83,7 @@ When a string is passed to `Buffer.from` the characters in the string are conver
 
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-7.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-7.png" width="1000" />
   <br />
 </p>
 
@@ -101,7 +101,7 @@ Even though there is one character in the string, it has a length of 2. This is 
 When the string is converted to a buffer however, it has a length of 4. This is because in UTF8 encoding, the eyes emoji is represented with four bytes:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-8.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-8.png" width="1000" />
   <br />
 </p>
 
@@ -112,7 +112,7 @@ When the first argument passed to Buffer.from is a string, a second argument can
 When we use a different encoding it results in a buffer with different byte values:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-9.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-9.png" width="1000" />
   <br />
 </p>
 
@@ -123,7 +123,7 @@ The supported byte-to-text encodings are hex and base64. Supplying one of these 
 Assuming UTF8 encoding, the base64 representation of the eyes emoji is 8J+RgA==. If we pass that to Buffer.from and pass a second argument of 'base64' it will create a buffer with the same bytes as Buffer.from('👀'):
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-9.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-9.png" width="1000" />
   <br />
 </p>
 
@@ -164,7 +164,7 @@ console.log(decoder.write(frag2)) // prints 👀
 Calling `decoder.write` will output a character only when all of the bytes representing that character have been written to the decoder:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-11.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-11.png" width="1000" />
   <br />
 </p>
 
@@ -173,7 +173,7 @@ Calling `decoder.write` will output a character only when all of the bytes repre
 JSON is a very common serialization format, particularly when working with JavaScript-based applications. When `JSON.stringify` encounters any object it will attempt to call a `toJSON` method on that object if it exists. `Buffer` instances have a toJSON method which returns a plain JavaScript object in order to represent the buffer in a JSON-friendly way:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-12.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-12.png" width="1000" />
   <br />
 </p>
 
@@ -192,6 +192,6 @@ console.log(Buffer.from(parsed.data)) // prints <Buffer f0 9f 91 80>
 When an array of numbers is passed to `Buffer.from` they are converted to a buffer with byte values corresponding to those numbers.
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-13.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/buffers/imgs/buffer-13.png" width="1000" />
   <br />
 </p>
