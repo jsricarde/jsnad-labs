@@ -66,6 +66,10 @@
   * [System Info]
   * [System Stats]
 * [Child Processes] 8%
+  * [exec & execSync Methods]
+  * [spawn & spawnSync Methods]
+  * [Process Configuration]
+  * [Child STDIO]
 
 
 [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
@@ -123,3 +127,8 @@
 [System Info]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#System-Info>
 [System Stats]: <http://github.com/jsricarde/jsnad-labs/tree/master/process&os#System-Stats>
 
+[Child Processes]: <http://github.com/jsricarde/jsnad-labs/tree/master/child>
+[exec & execSync Methods]: <http://github.com/jsricarde/jsnad-labs/tree/master/child#exec-&-execSync-Methods>
+[spawn & spawnSync Methods]: <http://github.com/jsricarde/jsnad-labs/tree/master/child#spawn-&-spawnSync-Methods>
+[Process Configuration]: <http://github.com/jsricarde/jsnad-labs/tree/master/child#Process-Configuration>
+[Child STDIO]: <http://github.com/jsricarde/jsnad-labs/tree/master/child#Child-STDIO>
