@@ -65,6 +65,7 @@
   * [Process Stats]
   * [System Info]
   * [System Stats]
+* [Child Processes] 8%
 
 
 [Javascript Key Concepts]: <http://github.com/jsricarde/jsnad-labs/tree/master/es6>
