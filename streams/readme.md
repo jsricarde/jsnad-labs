@@ -14,7 +14,7 @@ Other common Node core APIs such as process, `net`, `http` and `fs`, `child_proc
 The `Stream` constructor is the default export of the `stream` module and inherits from the `EventEmitter` constructor from the events module. The Stream constructor is rarely used directly, but is inherited from by the other constructors.
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-1.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-1.png" width="1000" />
   <br />
 </p>
 
@@ -88,7 +88,7 @@ When this is executed four data events are emitted, because our implementation p
 The following shows what happens when we execute this code:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-2.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-2.png" width="1000" />
   <br />
 </p>
 
@@ -127,7 +127,7 @@ readable.on('end', () => {
 If we were to run this example code again with this one line changed, we would see the following:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-3.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-3.png" width="1000" />
   <br />
 </p>
 
@@ -167,7 +167,7 @@ readable.on('end', () => {
 This will again create the same output as before:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-3.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-3.png" width="1000" />
   <br />
 </p>
 
@@ -216,7 +216,7 @@ writable.end('nothing to write')
 The `write` method can be called multiple times, the end method will also write a final payload to the stream before ending it. When the stream is ended, the `finish` event is emitted. Our example code will take the string inputs, convert them to Buffer instance and then write them to the `out` file. Once it writes the final line it will output `finished writing`:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-4.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-4.png" width="1000" />
   <br />
 </p>
 
@@ -256,7 +256,7 @@ In our implementation we add each chunk to the data array that we pass into our 
 When the stream is finished the data is logged out:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-5.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-5.png" width="1000" />
   <br />
 </p>
 
@@ -289,7 +289,7 @@ writable.end('nothing more to write')
 This will result in the following output:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-6.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-6.png" width="1000" />
   <br />
 </p>
 
@@ -319,7 +319,7 @@ The above code would result in an error, causing the process to crash because we
 
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-7.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-7.png" width="1000" />
   <br />
 </p>
 
@@ -350,7 +350,7 @@ writable.end('nothing more to write')
 By creating an object-mode stream, writing the number 1 to the stream will no longer cause an error:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-8.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-8.png" width="1000" />
   <br />
 </p>
 
@@ -412,7 +412,7 @@ We listen for `data` events and log out the incoming data buffers, converting th
 If we start both of the code examples as separate processes we can view the interaction:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-9.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-9.png" width="1000" />
   <br />
 </p>
 
@@ -436,7 +436,7 @@ setTimeout(() => {
 As data is written to the `transform` stream instance, `data` events are emitted on the readable side of that data in compressed format. We take the incoming data buffers and convert them to strings, using BASE64 encodings. This results in the following output:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-10.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-10.png" width="1000" />
   <br />
 </p>
 
@@ -482,7 +482,7 @@ In our case we used the asynchronous callback-based `crypto.scrypt` method, as e
 The `crypto.scrypt` callback is called once a key is derived from the inputs, or may be called if there was an error. In the event of an error we pass the error object to the next callback. In that scenario this would cause our transform stream to emit an error event. In the success case we call next(null, key). Passing the first argument as null indicates that there was no error, and the second argument is emitted as a data event from the readable side of the stream. Once we've instantiated our stream and assigned it to the transform constant, we write some payloads to the stream and then log out the hex strings we receive in the data event listener. The data is received as hex because we set the encoding option (part of the `Readable` stream options) to dictate that emitted data would be decoded to hex format. This produces the following result:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-10.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-10.png" width="1000" />
   <br />
 </p>
 
@@ -570,7 +570,7 @@ setTimeout(() => {
 Starting the example server from earlier and running the modified client results in the following:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-12.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-12.png" width="1000" />
   <br />
 </p>
 
@@ -620,7 +620,7 @@ net.createServer((socket) => {
 If we start both the modified TCP server and modified TCP client this will lead to the following result:
 
 <p align="center">
-  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-13.png" width="800" />
+  <img src="https://github.com/jsricarde/jsnad-labs/raw/master/streams/imgs/streams-13.png" width="1000" />
   <br />
 </p>
 
