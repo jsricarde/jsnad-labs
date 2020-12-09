@@ -352,7 +352,7 @@ setTimeout(() => {
 ```
 
 This produces the following output:
-
+<p align="center">
 <img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-18.png" width="1000" />
   <br />
 </p>
@@ -384,7 +384,7 @@ setTimeout(() => {
 In this example the `outputStats` function prints the process uptime in seconds, the user CPU usage in microseconds, the system CPU usage in microseconds, and the total CPU usage in seconds so we can compare it against the uptime. We print the stats when the process starts. After 500 milliseconds we print the stats again. Then we make the CPU do some work for roughly five seconds and print the stats one last time.
 
 Let's look at the output:
-
+<p align="center">
 <img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-19.png" width="1000" />
   <br />
 </p>
@@ -419,6 +419,7 @@ console.table(stats)
 
 The `console.table` function in this example is taking an array of objects that have the same keys (`rss, heapTotal, heapUsed and external`) and printing them out as a table. We assemble the stats array by adding the result `process.memoryUsage()` at initialization and then five more times after creating 10,000 objects each time. This will output something like the following:
 
+<p align="center">
 <img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-20.png" width="1000" />
   <br />
 </p>
@@ -443,6 +444,7 @@ console.log('Temp dir', os.tmpdir())
 
 This will display the hostname of the operating system, the logged in users home directory and the location of the Operating System temporary directory. The temporary folder is routinely cleared by the Operating System so it's a great place to store throwaway files without the need to remove them later.
 
+<p align="center">
 <img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-21.png" width="1000" />
   <br />
 </p>
@@ -463,6 +465,7 @@ console.log('type', os.type())
 
 On macOS this outputs:
 
+<p align="center">
 <img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-22.png" width="1000" />
   <br />
 </p>
@@ -495,6 +498,7 @@ setInterval(() => {
 
 If we execute this code for five seconds and then press Ctrl + C we'll see something like the following:
 
+<p align="center">
 <img src="https://github.com/jsricarde/jsnad-labs/raw/master/process&os/imgs/os-23.png" width="1000" />
   <br />
 </p>
