@@ -71,6 +71,10 @@
   * [Process Configuration]
   * [Child STDIO]
 * [Unit Testing] 6%
+  * [Assertions]
+  * [Test Harnesses]
+  * [Jest Framework]
+  * [Configuring package]
 
 
 
@@ -136,3 +140,7 @@
 [Child STDIO]: <http://github.com/jsricarde/jsnad-labs/tree/master/child#Child-STDIO>
 
 [Unit Testing]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut>
+[Assertions]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Assertions>
+[Test Harnesses]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Test-Harnesses>
+[Jest Framework]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Jest Framework>
+[Configuring package]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Configuring package>
