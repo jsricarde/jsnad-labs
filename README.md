@@ -20,7 +20,16 @@
 
 
 * [Node CLI] 7%
+  * [Printing Command Options]
+  * [Checking Syntax]
+  * [Dynamic Evaluation]
+  * [Preloading Modules]
+  * [Stack Trace Limit]
 * [Module System] 7%
+  * [Loading Module]
+  * [Creating a Module]
+  * [Detecting Main Module]
+  * [Resolving a Module Path]
 * [Package] 6%
 * [Javascript Key Concepts] 7%
   * [Data Types]
@@ -150,7 +159,17 @@
 [Configuring package]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Configuring-package>
 
 [Module System]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system>
+[Loading Module]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system#Loading-Module>
+[Creating a Module]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system#Creating-a-Module>
+[Detecting Main Module]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system#Detecting-Main-Module>
+[Resolving a Module Path]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system#Resolving-a-Module-Path>
+
 
 [Package]: <http://github.com/jsricarde/jsnad-labs/tree/master/semver>
 
 [Node CLI]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli>
+[Printing Command Options]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Printing-Command-Options>
+[Checking Syntax]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Checking-Syntax>
+[Dynamic Evaluation]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Dynamic-Evaluation>
+[Preloading Modules]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Preloading-Modules>
+[Stack Trace Limit]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Stack-Trace-Limit>
