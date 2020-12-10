@@ -18,6 +18,10 @@
 
 ## Content
 
+
+* [Node CLI] 7%
+* [Module System] 7%
+* [Package] 6%
 * [Javascript Key Concepts] 7%
   * [Data Types]
   * [Functions]
@@ -142,5 +146,11 @@
 [Unit Testing]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut>
 [Assertions]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Assertions>
 [Test Harnesses]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Test-Harnesses>
-[Jest Framework]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Jest Framework>
-[Configuring package]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Configuring package>
+[Jest Framework]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Jest-Framework>
+[Configuring package]: <http://github.com/jsricarde/jsnad-labs/tree/master/ut#Configuring-package>
+
+[Module System]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system>
+
+[Package]: <http://github.com/jsricarde/jsnad-labs/tree/master/semver>
+
+[Node CLI]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli>
