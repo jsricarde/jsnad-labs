@@ -18,7 +18,6 @@
 
 ## Content
 
-
 * [Node CLI] 7%
   * [Printing Command Options]
   * [Checking Syntax]
@@ -31,6 +30,7 @@
   * [Detecting Main Module]
   * [Resolving a Module Path]
 * [Package] 6%
+* [Debuging] 6%
 * [Javascript Key Concepts] 7%
   * [Data Types]
   * [Functions]
@@ -164,7 +164,6 @@
 [Detecting Main Module]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system#Detecting-Main-Module>
 [Resolving a Module Path]: <http://github.com/jsricarde/jsnad-labs/tree/master/module-system#Resolving-a-Module-Path>
 
-
 [Package]: <http://github.com/jsricarde/jsnad-labs/tree/master/semver>
 
 [Node CLI]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli>
@@ -173,3 +172,5 @@
 [Dynamic Evaluation]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Dynamic-Evaluation>
 [Preloading Modules]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Preloading-Modules>
 [Stack Trace Limit]: <http://github.com/jsricarde/jsnad-labs/tree/master/cli#Stack-Trace-Limit>
+
+[Debuging]: <http://github.com/jsricarde/jsnad-labs/tree/master/debuging>
