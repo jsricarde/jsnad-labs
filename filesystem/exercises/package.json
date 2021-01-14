@@ -1,0 +1,14 @@
+{
+  "name": "exercises",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fs-async.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chokidar": "^3.4.3"
+  }
+}
