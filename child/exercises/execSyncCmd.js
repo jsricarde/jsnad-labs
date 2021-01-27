@@ -1,9 +1,8 @@
 'use strict'
 
+const platform = process.cwd()
 const { execSync } = require('child_process')
+const cwd = platform === 'win32' ? 'dir' : 'ls'
+const result = execSync(cwd)
 
-const cmd = process.platform === 'win32' ? 'dir' : 'ls'
-
-const output = execSync(cmd)
-
-console.log(output.toString())
+console.log(result.toString())
